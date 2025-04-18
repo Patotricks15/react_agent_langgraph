@@ -85,6 +85,9 @@ flowchart TD
 - **StateGraph** manages transitions between nodes.
 - **ChatOpenAI** provides the LLM backend for both stages.
 
+
+![imagem](react_agent_graph.png)
+
 ---
 
 ## Extending the Agent
