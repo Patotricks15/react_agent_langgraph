@@ -13,6 +13,17 @@ class AgentState(BaseModel):
 llm = ChatOpenAI(model="gpt-3.5-turbo-1106", temperature=0)
 
 def reasoning_agent(state: AgentState) -> AgentState:
+    """
+    The reasoning agent is the first step in the workflow. It takes user's input
+    and uses the language model to generate intermediate reasoning. The output
+    is stored in the "thought" field of the state.
+
+    Args:
+        state (AgentState): The current state of the agent.
+
+    Returns:
+        AgentState: The updated state of the agent.
+    """
     response = llm([HumanMessage(content=f"Think step by step: {state.input_text}")])
     return AgentState(
         input_text=state.input_text,
@@ -21,6 +32,18 @@ def reasoning_agent(state: AgentState) -> AgentState:
     )
 
 def action_agent(state: AgentState) -> AgentState:
+    """
+    The action agent is the second step in the workflow. It takes the user's
+    input and the intermediate reasoning from the previous step, and uses the
+    language model to generate a final action plan. The output is stored in the
+    "output_action" field of the state.
+
+    Args:
+        state (AgentState): The current state of the agent.
+
+    Returns:
+        AgentState: The updated state of the agent.
+    """
     response = llm([HumanMessage(
         content=f"Based on the problem: {state.input_text}, and the thought {state.thought}, build an action plan"
     )])
